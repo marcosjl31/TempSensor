@@ -17,9 +17,9 @@ AHT20 aht20;
 
 //------------------------------------------------------------------------
 // Define watchdog timer interrupt action
-// ISR(WDT_vect) {
-//   watchdogActive = true; // set flag
-// }
+ISR(WDT_vect) {
+  watchdogActive = true; // set flag
+}
 
 void setup()
 {
@@ -42,7 +42,7 @@ void setup()
   Serial.println("Lance sendMessage");
   sendMessage(&Msg,REP); // Send message on RF for 'REP' times
 
-  // setup_watchdog();    // Set 8s watchdog timer interrupt
+  setup_watchdog();    // Set 8s watchdog timer interrupt
 }
 
 void loop()
@@ -62,6 +62,6 @@ void loop()
     }
   }
 
-  // sleep();  // go to sleep!
+  sleep();  // go to sleep!
 
 }
