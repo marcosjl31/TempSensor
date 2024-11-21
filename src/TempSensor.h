@@ -9,8 +9,8 @@
 // [Please CHANGE THIS] - WiFi settings and local IP configuraiton
 String staHostname = "TempSensor";
 
-char ssid[] = "GuiNet_Guests";
-char pass[] = "39GuiNet";
+char ssid[] = "YOUR_SSID";
+char pass[] = "YOUR_PASSWORD";
 
 // [Please CHANGE This] - API ReST server to post data from TempSensor
 String weatherStationServer = "http://192.168.3.10/post-data";
