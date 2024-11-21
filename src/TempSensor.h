@@ -1,3 +1,4 @@
+#include <Arduino.h>
 #ifndef TEMPSENSOR_H
 #define TEMPSENSOR_H
 
