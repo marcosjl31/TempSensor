@@ -3,7 +3,6 @@
 #include <ArduinoJson.h>
 #include <ESP8266WiFi.h>
 #include <ESP8266HTTPClient.h>
-// #include <ESP32Time.h>
 #include <AHT20.h>
 
 // Static IP for station
