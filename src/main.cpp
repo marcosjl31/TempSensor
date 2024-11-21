@@ -1,15 +1,5 @@
 #include <Arduino.h>
 #include "TempSensor.h"
-#include <ArduinoJson.h>
-#include <ESP8266WiFi.h>
-#include <ESP8266HTTPClient.h>
-#include <AHT20.h>
-
-// Static IP for station
-IPAddress _ip(192,168,3,11);
-IPAddress _gw(192,168,3,1);
-IPAddress _nm(255,255,255,0);
-IPAddress _dns(192,168,3,1);
 
 WiFiClient client;
 HTTPClient http;
@@ -54,23 +44,23 @@ void setup()
   // Serial.println("%");
   
   //--- Connecting to Wifi
-  WiFi.mode(WIFI_STA);
-  WiFi.hostname(staHostname);
-  if (!WiFi.config(_ip,_gw,_nm,_dns))
-    Serial.println("Err: Failed to configure static IP address of tempSensor station");
+  wifiManager.setConfigPortalTimeout(5000);
+  IPAddress _ip,_gw,_mask,_dns;
+  _ip.fromString(static_ip);
+  _gw.fromString(static_gw);
+  _mask.fromString(static_mask);
+  _dns.fromString(static_dns);
 
-  WiFi.begin(ssid,pass);
-  while (WiFi.status() != WL_CONNECTED) {
-    delay(500);
-    if (++i > 20) {
-      Serial.println("Unable to connect to WiFi!");
-      Serial.println("Going to sleep for 10 mn and try again...");
-      if (volt>OP_VOLT)
-        goSleep(10);
-      else
-        goSleep(0);   // hybernate to avoid 18600 batt drainage in case no WiFi signal.
-    }
- }
+  wifiManager.setHostname(staHostname);
+  wifiManager.setSTAStaticIPConfig(_ip,_gw,_mask,_dns);
+
+  if(!wifiManager.autoConnect("AP_WifiConfig","password")) {
+    Serial.println("Failed to connect and hit timeout");
+    delay(3000);
+    ESP.restart();
+  } 
+
+  Serial.println("INFO: connected to WiFi");
 
   Wire.begin(); //Join I2C bus
 
@@ -102,14 +92,14 @@ void setup()
 
   // Serial.println();
 
-  //--- We've got temperature/humidity/batt.level data, let's send it to 
+  //--- We've got temperature/humidity/batt.voltage data, let's send it to 
   //    Weather Station ReST API server.
   http.begin(client,weatherStationServer);
   http.addHeader("Content-Type","application/json");
 
   jsonToSend["temperature"] = round2(temperature);
   jsonToSend["humidity"] = round2(humidity);
-  jsonToSend["battery"] = round2(batterypercentage);
+  jsonToSend["battery"] = round2(volt);
 
   serializeJson(jsonToSend,jsonToSendStr);
   httpResponseCode = http.POST(jsonToSendStr);
