@@ -1,10 +1,23 @@
 #ifndef TEMPSENSOR_H
 #define TEMPSENSOR_H
 
-#include <Arduino.h>
-#include <AHT20.h>
+#define CALIB_FACTOR 5.18       // change this value to calibrate the battery voltage
+#define OP_VOLT 3.6             // (V) Minimum operational voltage allowed for the battery
+#define WAKE_INTERVAL 20        // (mn) Send temp/humi/batt data 3 times per hour
 
-// Objects to manipulate AHT20 sensor
-AHT20 aht20;
+
+// [Please CHANGE THIS] - WiFi settings and local IP configuraiton
+String staHostname = "TempSensor";
+
+char ssid[] = "YOUR_SSID";
+char pass[] = "YOUR_PASSWD";
+
+// [Please CHANGE This] - API ReST server to post data from TempSensor
+String weatherStationServer = "http://192.168.3.10/post-data";
+
+// Forward declarations
+void goSleep(unsigned int sleepMinutes);
+float round2(float value);
+
 
 #endif
