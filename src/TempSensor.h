@@ -6,7 +6,7 @@
 #define WAKE_INTERVAL 20        // (mn) Send temp/humi/batt data 3 times per hour
 
 
-// [Please CHANGE THIS] - WiFi settings and local IP configuraiton
+// [Please CHANGE THIS] - WiFi settings and local IP configuration
 String staHostname = "TempSensor";
 
 char ssid[] = "YOUR_SSID";
