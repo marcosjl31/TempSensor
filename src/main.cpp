@@ -1,6 +1,7 @@
 #include <Arduino.h>
 #include "TempSensor.h"
 
+//--- Vars related to http client request to post data to main weather station.
 WiFiClient client;
 HTTPClient http;
 int httpResponseCode;
