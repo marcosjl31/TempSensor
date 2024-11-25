@@ -34,15 +34,15 @@ void setup()
   raw = analogRead(A0);
   volt = raw * CALIB_FACTOR / 1024;
 
-  // Serial.print("Voltage = ");
-  // Serial.print(volt, 2); // print with 2 decimal places
-  // Serial.println (" V");
+  Serial.print("Voltage = ");
+  Serial.print(volt, 2); // print with 2 decimal places
+  Serial.println (" V");
 
   batterypercentage = (volt - OP_VOLT) * 100 / 0.6;   // OP_VOLT V is the lower limit set to 0%, bandwith 0.6 V
   if (batterypercentage > 100) batterypercentage = 100;
-  // Serial.print("Battery charge: ");
-  // Serial.print(batterypercentage);
-  // Serial.println("%");
+  Serial.print("Battery charge: ");
+  Serial.print(batterypercentage);
+  Serial.println("%");
   
   //--- Connecting to Wifi
   wifiManager.setConfigPortalTimeout(5000);
@@ -84,14 +84,14 @@ void setup()
   humidity = aht20.getHumidity();
 
   // //Print the results
-  // Serial.print("Temperature: ");
-  // Serial.print(temperature, 2);
-  // Serial.print(" C\t");
-  // Serial.print("Humidity: ");
-  // Serial.print(humidity, 2);
-  // Serial.print("% RH");
+  Serial.print("Temperature: ");
+  Serial.print(temperature, 2);
+  Serial.print(" C\t");
+  Serial.print("Humidity: ");
+  Serial.print(humidity, 2);
+  Serial.print("% RH");
 
-  // Serial.println();
+  Serial.println();
 
   //--- We've got temperature/humidity/batt.voltage data, let's send it to 
   //    Weather Station ReST API server.
@@ -106,6 +106,8 @@ void setup()
   httpResponseCode = http.POST(jsonToSendStr);
   Serial.println("DEBUG: HTTP response code: " + String(httpResponseCode));
   http.end();
+
+  delay(20000);
 
   //--- go to sleep or hibernate depending on battery level
   if (volt > OP_VOLT)
