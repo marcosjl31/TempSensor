@@ -7,9 +7,9 @@
 #include <AHT20.h>
 
 
-#define CALIB_FACTOR 5.18       // change this value to calibrate the battery voltage
+#define CALIB_FACTOR 5.25       // change this value to calibrate the battery voltage
 #define OP_VOLT 3.6             // (V) Minimum operational voltage allowed for the battery
-#define WAKE_INTERVAL 5        // (mn) Send temp/humi/batt data 3 times per hour
+#define WAKE_INTERVAL 20        // (mn) Send temp/humi/batt data 3 times per hour
 
 WiFiManager wifiManager;
 // [Please CHANGE THIS] - WiFi settings and local IP configuration
