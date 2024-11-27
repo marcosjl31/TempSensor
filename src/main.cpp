@@ -25,7 +25,7 @@ int i=0;
 
 void setup()
 {
-  Serial.begin(115200);
+  Serial.begin(74880);
   Serial.println("TempSensor starting");
 
   //--- Check Battery voltage first
@@ -100,7 +100,7 @@ void setup()
 
   jsonToSend["temperature"] = round2(temperature);
   jsonToSend["humidity"] = round2(humidity);
-  jsonToSend["battery"] = round2(volt);
+  jsonToSend["battery"] = round2(batterypercentage);
 
   serializeJson(jsonToSend,jsonToSendStr);
   httpResponseCode = http.POST(jsonToSendStr);
@@ -121,16 +121,9 @@ void loop()
 }
 
 //--- goSleep function
-//    Disconnect properly WiFi and go to deep sleep for sleepMinutes minutes
+//    Go to deep sleep for sleepMinutes minutes, if 0, sleep forever ! (till reset button is pressed)
 void goSleep(unsigned int sleepMinutes) {
-  Serial.println("INFO: close WiFi connection");
-  WiFi.disconnect();
-  while (WiFi.status() == WL_CONNECTED){
-    Serial.println("Waiting for WiFi disconnect...");
-    delay(10);
-  }
-  delay(50);
-
+  
   if (sleepMinutes > 0) {
     Serial.print("INFO: going to sleep now for ");
     Serial.print(sleepMinutes);
